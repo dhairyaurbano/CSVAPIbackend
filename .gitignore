@@ -1,0 +1,12 @@
+__pycache__
+db.sqlite3
+myvenv/
+myenv/
+servervenv/ 
+*.pyc
+00*
+000*
+build/
+dist/
+/staticfiles
+.env
