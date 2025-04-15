@@ -1,0 +1,2 @@
+Django==5.2
+drf-yasg==1.21.10
