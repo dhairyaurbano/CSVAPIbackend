@@ -20,7 +20,15 @@ router.register(r'taskstatus', TaskStatusView, basename='taskstatus')
 router.register(r'tasks', TaskView, basename='task')
 router.register(r'timelogs', TimeLogView, basename='timelog')
 router.register(r'timelogsfiltered', TimeLogFilteredView, basename='timelogfiltered')
+from drf_yasg.generators import OpenAPISchemaGenerator
 
+
+class BothHttpAndHttpsSchemaGenerator(OpenAPISchemaGenerator):
+    def get_schema(self, request=None, public=False):
+        schema = super().get_schema(request, public)
+        schema.schemes = ["https", "http"]
+        return schema
+    
 # Swagger Schema View
 schema_view = get_schema_view(
     openapi.Info(
@@ -30,6 +38,8 @@ schema_view = get_schema_view(
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
+    generator_class=BothHttpAndHttpsSchemaGenerator,
+    
 )
 
 urlpatterns = [
