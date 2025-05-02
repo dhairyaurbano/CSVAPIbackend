@@ -138,8 +138,10 @@ CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins
 CORS_ALLOW_CREDENTIALS = True  # Allow credentials
 
 # Optional: You can also specify allowed origins instead of allowing all
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:3000",
-#     "http://127.0.0.1:3000",
-#     # Add other origins as needed
-# ]
+CORS_ALLOWED_ORIGINS = [
+     "http://localhost:3000",
+     "http://127.0.0.1:3000",
+     "http://147.93.103.110:8005",
+     "https://147.93.103.110:8007"
+     # Add other origins as needed
+]
