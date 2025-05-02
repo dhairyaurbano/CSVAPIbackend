@@ -696,3 +696,18 @@ class TimeLogFilteredView(viewsets.ViewSet):
             "count": 6,
             "result": timelogoriginallist[:6]  # Only return first 6 entries
         }, status=status.HTTP_200_OK)
+
+
+
+
+class CompanyLocationView(viewsets.ViewSet):
+    """
+    Company CRUD APIs
+    """
+    @swagger_auto_schema(operation_description="Delete company by ID", tags=["CompanyLocation"])
+    def destroy(self, request, company_id,location_id):
+        return Response({
+            "statusCode": 200,
+            "message": "Company loation deleted succesfully",
+            "results": []
+        }, status=status.HTTP_200_OK)

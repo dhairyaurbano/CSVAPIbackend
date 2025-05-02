@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import CompanyView, PONumberView, TemplateView, SystemView, UserView, GroupView, TaskStatusView, TaskView, TimeLogView, TimeLogFilteredView
+from .views import CompanyView, PONumberView, TemplateView, SystemView, UserView, GroupView, CompanyLocationView,TaskStatusView, TaskView, TimeLogView, TimeLogFilteredView
 
 # Swagger Imports
 from drf_yasg.views import get_schema_view
@@ -45,6 +45,11 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include(router.urls)),  # Your API endpoints
+    path(
+        "company/<int:company_id>/location/<int:location_id>/",
+        CompanyLocationView.as_view({"delete": "destroy"}),
+        name="location"
+    ),
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
