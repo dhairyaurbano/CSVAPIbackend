@@ -512,6 +512,14 @@ class PONumberView(viewsets.ViewSet):
             },
             "errors": 0
         }, status=status.HTTP_200_OK)
+    
+    @swagger_auto_schema(operation_description="Delete po number by ID")
+    def destroy(self, request, pk=None):
+        return Response({
+            "statusCode": 200,
+            "message": "po number deleted succesfully",
+            "results": []
+        }, status=status.HTTP_200_OK)
 
 
 class CompanyView(viewsets.ViewSet):
@@ -621,6 +629,24 @@ class UserView(viewsets.ViewSet):
             },
             "errors": 0
         }, status=status.HTTP_200_OK)
+    
+
+    @swagger_auto_schema(operation_description="Retrieve Users by ID")
+    def retrieve(self, request, pk=None):
+        return Response({
+            "statusCode": 200,
+            "message": "Users retrieved succesfully",
+            "results": userlist[0]
+        }, status=status.HTTP_200_OK)
+    
+
+    @swagger_auto_schema(operation_description="Update Users by ID")
+    def update(self, request, pk=None):
+        return Response({
+            "statusCode": 200,
+            "message": "Users updated succesfully",
+            "results": userlist[0]
+        }, status=status.HTTP_200_OK)
 
 class GroupView(viewsets.ViewSet):
     """
@@ -637,6 +663,23 @@ class GroupView(viewsets.ViewSet):
                 "count": 6
             },
             "errors": 0
+        }, status=status.HTTP_200_OK)
+    
+    @swagger_auto_schema(operation_description="Retrieve group by ID")
+    def retrieve(self, request, pk=None):
+        return Response({
+            "statusCode": 200,
+            "message": "Group retrieved succesfully",
+            "results": grouplist[0]
+        }, status=status.HTTP_200_OK)
+    
+
+    @swagger_auto_schema(operation_description="Update group by ID")
+    def update(self, request, pk=None):
+        return Response({
+            "statusCode": 200,
+            "message": "Group updated succesfully",
+            "results": grouplist[0]
         }, status=status.HTTP_200_OK)
 
 class TaskStatusView(viewsets.ViewSet):
@@ -683,6 +726,24 @@ class TimeLogView(viewsets.ViewSet):
             "status": "success",
             "count": 26,
             "result": timelogoriginallist
+        }, status=status.HTTP_200_OK)
+    
+
+    @swagger_auto_schema(operation_description="Retrieve timelog by ID")
+    def retrieve(self, request, pk=None):
+        return Response({
+            "statusCode": 200,
+            "message": "Timelog retrieved succesfully",
+            "results": timelogoriginallist[0]
+        }, status=status.HTTP_200_OK)
+    
+
+    @swagger_auto_schema(operation_description="Update timelog by ID")
+    def update(self, request, pk=None):
+        return Response({
+            "statusCode": 200,
+            "message": "Timelog updated succesfully",
+            "results": timelogoriginallist[0]
         }, status=status.HTTP_200_OK)
 
 class TimeLogFilteredView(viewsets.ViewSet):
