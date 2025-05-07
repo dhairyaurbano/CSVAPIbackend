@@ -2,6 +2,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework import serializers
 
 
 # In-memory storage for example (replace with DB later)
@@ -499,6 +500,31 @@ timelogoriginallist = [
     }
 ]
 
+getSpecificTimelogdata={
+     "id": 1,
+        "task": "Server maintenance",
+        "system_name": "Alpha",
+        "system_id": "SYS-101",
+        "date": "2025-03-15",
+        "description": "Routine server maintenance and updates.",
+        "start_time": "09:00",
+        "end_time": "12:00",
+        "hours": 3,
+        "added_by": "John",
+        "po_number": "PO-4567"
+};
+
+
+class TimeLogSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    start_time = serializers.DateTimeField()
+    end_time = serializers.DateTimeField()
+    description = serializers.CharField()
+    task = serializers.CharField()
+    system_name = serializers.CharField()
+    added_by = serializers.CharField()
+
 class PONumberView(viewsets.ViewSet):
     @swagger_auto_schema(operation_description="List all filtered and after deletion po number list")
     def list(self, request):
@@ -734,11 +760,22 @@ class TimeLogView(viewsets.ViewSet):
         return Response({
             "statusCode": 200,
             "message": "Timelog retrieved succesfully",
-            "results": timelogoriginallist[0]
+            "results": getSpecificTimelogdata
         }, status=status.HTTP_200_OK)
     
 
-    @swagger_auto_schema(operation_description="Update timelog by ID")
+    @swagger_auto_schema(
+        operation_description="Create a new timelog",
+        request_body=TimeLogSerializer
+    )
+    def create(self, request):
+        return Response({
+            "statusCode": 201,
+            "message": "Timelog created successfully",
+            "results": request.data  # Echoing back submitted data
+        }, status=status.HTTP_201_CREATED)
+
+    @swagger_auto_schema(operation_description="Update timelog by ID",request_body=TimeLogSerializer)
     def update(self, request, pk=None):
         return Response({
             "statusCode": 200,
