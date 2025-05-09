@@ -3,7 +3,39 @@ from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import serializers
+from rest_framework.decorators import action
+import random
 
+graph_data_variations = {
+            1: [
+                {"id": 12, "name": "Hemanshi Kambaliya", "todo": random.randint(0, 10), "inProgress": random.randint(0, 5), "completed": random.randint(10, 20)},
+                {"id": 14, "name": "Karan Patel", "todo": random.randint(10, 70), "inProgress": random.randint(0, 10), "completed": random.randint(10, 30)},
+                {"id": 15, "name": "Anil Kumar", "todo": random.randint(5, 20), "inProgress": random.randint(0, 3), "completed": random.randint(5, 15)},
+                {"id": 16, "name": "Priya Sharma", "todo": random.randint(0, 5), "inProgress": random.randint(2, 6), "completed": random.randint(10, 18)},
+                {"id": 17, "name": "Rahul Verma", "todo": random.randint(20, 40), "inProgress": random.randint(0, 5), "completed": random.randint(8, 12)}
+            ],
+            2: [
+                {"id": 18, "name": "Alisha Singh", "todo": random.randint(0, 20), "inProgress": random.randint(0, 5), "completed": random.randint(5, 12)},
+                {"id": 19, "name": "Jignesh Patel", "todo": random.randint(10, 60), "inProgress": random.randint(2, 8), "completed": random.randint(12, 22)},
+                {"id": 20, "name": "Maya Iyer", "todo": random.randint(3, 15), "inProgress": random.randint(1, 4), "completed": random.randint(7, 16)},
+                {"id": 21, "name": "Deepak Mehta", "todo": random.randint(0, 10), "inProgress": random.randint(0, 6), "completed": random.randint(15, 25)},
+                {"id": 22, "name": "Sonia Singh", "todo": random.randint(5, 30), "inProgress": random.randint(0, 4), "completed": random.randint(10, 20)}
+            ],
+            3: [
+                {"id": 23, "name": "Vishal Agarwal", "todo": random.randint(0, 50), "inProgress": random.randint(1, 7), "completed": random.randint(10, 20)},
+                {"id": 24, "name": "Neha Rathi", "todo": random.randint(15, 45), "inProgress": random.randint(0, 6), "completed": random.randint(5, 15)},
+                {"id": 25, "name": "Amit Joshi", "todo": random.randint(0, 10), "inProgress": random.randint(2, 4), "completed": random.randint(12, 18)},
+                {"id": 26, "name": "Ravi Soni", "todo": random.randint(5, 35), "inProgress": random.randint(0, 3), "completed": random.randint(8, 16)},
+                {"id": 27, "name": "Manju Patil", "todo": random.randint(0, 20), "inProgress": random.randint(1, 5), "completed": random.randint(5, 12)}
+            ],
+            4: [
+                {"id": 28, "name": "Ashok Kumar", "todo": random.randint(0, 30), "inProgress": random.randint(2, 5), "completed": random.randint(8, 18)},
+                {"id": 29, "name": "Kritika Gupta", "todo": random.randint(10, 50), "inProgress": random.randint(0, 4), "completed": random.randint(15, 25)},
+                {"id": 30, "name": "Harshit Mehta", "todo": random.randint(0, 20), "inProgress": random.randint(3, 8), "completed": random.randint(7, 18)},
+                {"id": 31, "name": "Simran Kaur", "todo": random.randint(10, 40), "inProgress": random.randint(0, 6), "completed": random.randint(5, 13)},
+                {"id": 32, "name": "Sandeep Yadav", "todo": random.randint(5, 30), "inProgress": random.randint(1, 4), "completed": random.randint(12, 22)}
+            ]
+        }
 
 # In-memory storage for example (replace with DB later)
 
@@ -603,6 +635,72 @@ class CompanyView(viewsets.ViewSet):
             "statusCode": 200,
             "message": "Company deleted succesfully",
             "results": []
+        }, status=status.HTTP_200_OK)
+    
+
+    @action(detail=True, methods=['get'], url_path='systems')
+    def systems(self, request, pk=None):
+        # Simulate fixed system list
+        systems = [
+        { "id": 1, "label": "System 1" },
+        { "id": 2, "label": "System 2" },
+        { "id": 3, "label": "System 3" },
+        { "id": 4, "label": "System 4" }
+        ];
+        return Response({
+            "statusCode": 200,
+            "message": f"Systems for company {pk} listed successfully",
+            "results": systems
+        }, status=status.HTTP_200_OK)
+    
+    @swagger_auto_schema(operation_description="Get graph data for a specific system")
+    @action(detail=True, methods=['get'], url_path='system/(?P<systemid>[^/.]+)/graphdata')
+    def graph_data(self, request, pk=None, systemid=None):
+        systemid = self.kwargs.get('systemid')  # Correct way to fetch it
+        # Generate dummy data for different system IDs
+        graph_data_variations = {
+            1: [
+                {"id": 12, "name": "Hemanshi Kambaliya", "todo": random.randint(0, 10), "inProgress": random.randint(0, 5), "completed": random.randint(10, 20)},
+                {"id": 14, "name": "Karan Patel", "todo": random.randint(10, 70), "inProgress": random.randint(0, 10), "completed": random.randint(10, 30)},
+                {"id": 15, "name": "Anil Kumar", "todo": random.randint(5, 20), "inProgress": random.randint(0, 3), "completed": random.randint(5, 15)},
+                {"id": 16, "name": "Priya Sharma", "todo": random.randint(0, 5), "inProgress": random.randint(2, 6), "completed": random.randint(10, 18)},
+                {"id": 17, "name": "Rahul Verma", "todo": random.randint(20, 40), "inProgress": random.randint(0, 5), "completed": random.randint(8, 12)}
+            ],
+            2: [
+                {"id": 18, "name": "Alisha Singh", "todo": random.randint(0, 20), "inProgress": random.randint(0, 5), "completed": random.randint(5, 12)},
+                {"id": 19, "name": "Jignesh Patel", "todo": random.randint(10, 60), "inProgress": random.randint(2, 8), "completed": random.randint(12, 22)},
+                {"id": 20, "name": "Maya Iyer", "todo": random.randint(3, 15), "inProgress": random.randint(1, 4), "completed": random.randint(7, 16)},
+                {"id": 21, "name": "Deepak Mehta", "todo": random.randint(0, 10), "inProgress": random.randint(0, 6), "completed": random.randint(15, 25)},
+                {"id": 22, "name": "Sonia Singh", "todo": random.randint(5, 30), "inProgress": random.randint(0, 4), "completed": random.randint(10, 20)}
+            ],
+            3: [
+                {"id": 23, "name": "Vishal Agarwal", "todo": random.randint(0, 50), "inProgress": random.randint(1, 7), "completed": random.randint(10, 20)},
+                {"id": 24, "name": "Neha Rathi", "todo": random.randint(15, 45), "inProgress": random.randint(0, 6), "completed": random.randint(5, 15)},
+                {"id": 25, "name": "Amit Joshi", "todo": random.randint(0, 10), "inProgress": random.randint(2, 4), "completed": random.randint(12, 18)},
+                {"id": 26, "name": "Ravi Soni", "todo": random.randint(5, 35), "inProgress": random.randint(0, 3), "completed": random.randint(8, 16)},
+                {"id": 27, "name": "Manju Patil", "todo": random.randint(0, 20), "inProgress": random.randint(1, 5), "completed": random.randint(5, 12)}
+            ],
+            4: [
+                {"id": 28, "name": "Ashok Kumar", "todo": random.randint(0, 30), "inProgress": random.randint(2, 5), "completed": random.randint(8, 18)},
+                {"id": 29, "name": "Kritika Gupta", "todo": random.randint(10, 50), "inProgress": random.randint(0, 4), "completed": random.randint(15, 25)},
+                {"id": 30, "name": "Harshit Mehta", "todo": random.randint(0, 20), "inProgress": random.randint(3, 8), "completed": random.randint(7, 18)},
+                {"id": 31, "name": "Simran Kaur", "todo": random.randint(10, 40), "inProgress": random.randint(0, 6), "completed": random.randint(5, 13)},
+                {"id": 32, "name": "Sandeep Yadav", "todo": random.randint(5, 30), "inProgress": random.randint(1, 4), "completed": random.randint(12, 22)}
+            ]
+        }
+
+        # Get the corresponding data for the selected systemid
+        data = graph_data_variations.get(int(systemid), [])
+
+        return Response({
+            "statusCode": 200,
+            "message": f"Graph data for system {systemid} listed successfully",
+            "results": {
+                "data": data,
+                "totalponumbers": random.randint(10, 15),
+                "totalemployees": random.randint(40, 60),
+                "totalsytems": random.randint(20, 30)
+            }
         }, status=status.HTTP_200_OK)
 
 class TemplateView(viewsets.ViewSet):
