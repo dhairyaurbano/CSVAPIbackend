@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import CompanyView, PONumberView, TemplateView, SystemView, UserView, GroupView, CompanyLocationView,TaskStatusView, TaskView, TimeLogView, TimeLogFilteredView
+from .views import CompanyView, PONumberView, TemplateView, SystemView, UserView, GroupView, CompanyLocationView,TaskStatusView, TaskView, TimeLogView, TimeLogFilteredView, UserPermissionView, UserGroupView, GroupPermissionView
 
 # Swagger Imports
 from drf_yasg.views import get_schema_view
@@ -56,4 +56,7 @@ urlpatterns = [
         name="schema-swagger-ui",
     ),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
+    path('user/<int:user_id>/permissions/', UserPermissionView.as_view(), name='user-permissions'),
+    path('user/<int:user_id>/groups/', UserGroupView.as_view(), name='user-groups'),
+    path('groups/<int:group_id>/permissions/', GroupPermissionView.as_view(), name='group-permissions'),
 ]

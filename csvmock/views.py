@@ -5,6 +5,9 @@ from rest_framework.decorators import action
 from rest_framework import serializers
 from rest_framework.decorators import action
 import random
+from rest_framework.views import APIView
+from django.contrib.auth.models import User
+from .serializers import PermissionSerializer
 
 graph_data_variations = {
             1: [
@@ -907,3 +910,75 @@ class CompanyLocationView(viewsets.ViewSet):
             "message": "Company loation deleted succesfully",
             "results": []
         }, status=status.HTTP_200_OK)
+
+class UserPermissionView(APIView):
+    def get(self, request, user_id):
+        permissions = [
+            {"id": 1, "permission_name": "read", "permission_id": 101},
+            {"id": 2, "permission_name": "write", "permission_id": 102},
+            {"id": 3, "permission_name": "execute", "permission_id": 103},
+            {"id": 4, "permission_name": "delete", "permission_id": 104},
+            {"id": 5, "permission_name": "create", "permission_id": 105},
+            {"id": 6, "permission_name": "update", "permission_id": 106},
+            {"id": 7, "permission_name": "view", "permission_id": 107},
+            {"id": 8, "permission_name": "manage", "permission_id": 108},
+            {"id": 9, "permission_name": "admin", "permission_id": 109},
+            {"id": 10, "permission_name": "superadmin", "permission_id": 110},
+        ]
+        search = request.GET.get('search', '').strip().lower()
+        if search:
+            filtered = [p for p in permissions if search in p['permission_name'].lower()]
+        else:
+            filtered = permissions
+        return Response({'status': 'success', 'result': filtered}, status=status.HTTP_200_OK)
+
+class UserGroupView(APIView):
+    def get(self, request, user_id):
+        groups = [
+            {"id": 1, "group": "Admin"},
+            {"id": 2, "group": "Software Engineer"},
+            {"id": 3, "group": "Engineer"},
+            {"id": 4, "group": "Group 2"},
+            {"id": 5, "group": "grop 3"},
+            {"id": 6, "group": "Group 4"},
+            {"id": 7, "group": "Group 5"},
+            {"id": 8, "group": "Group 565656"},
+            {"id": 9, "group": "saddsds"},
+            {"id": 10, "group": "sdsdsdsdsd"}
+        ]
+        search = request.GET.get('search', '').strip().lower()
+        if search:
+            filtered = [g for g in groups if search in g['group'].lower()]
+        else:
+            filtered = groups
+        return Response({
+            "statusCode": 200,
+            "message": "success",
+            "results": {
+                "data": filtered,
+                "count": len(filtered),
+                "page": 1
+            },
+            "errors": None
+        }, status=status.HTTP_200_OK)
+
+class GroupPermissionView(APIView):
+    def get(self, request, group_id):
+        permissions = [
+            {"id": 1, "permission_name": "read", "permission_id": 101},
+            {"id": 2, "permission_name": "write", "permission_id": 102},
+            {"id": 3, "permission_name": "execute", "permission_id": 103},
+            {"id": 4, "permission_name": "delete", "permission_id": 104},
+            {"id": 5, "permission_name": "create", "permission_id": 105},
+            {"id": 6, "permission_name": "update", "permission_id": 106},
+            {"id": 7, "permission_name": "view", "permission_id": 107},
+            {"id": 8, "permission_name": "manage", "permission_id": 108},
+            {"id": 9, "permission_name": "admin", "permission_id": 109},
+            {"id": 10, "permission_name": "superadmin", "permission_id": 110},
+        ]
+        search = request.GET.get('search', '').strip().lower()
+        if search:
+            filtered = [p for p in permissions if search in p['permission_name'].lower()]
+        else:
+            filtered = permissions
+        return Response({'status': 'success', 'result': filtered}, status=status.HTTP_200_OK)
